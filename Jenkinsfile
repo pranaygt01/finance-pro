@@ -18,16 +18,10 @@ node{
     stage('git code checkout'){
         try{
             echo 'checkout the code from git repository'
-            git 'https://github.com/shubhamkushwah123/star-agile-insurance-project.git'
+            git 'https://github.com/pranaygt01/finance-pro/tree/master'
         }
-        catch(Exception e){
-            echo 'Exception occured in Git Code Checkout Stage'
-            currentBuild.result = "FAILURE"
-            emailext body: '''Dear All,
-            The Jenkins job ${JOB_NAME} has been failed. Request you to please have a look at it immediately by clicking on the below link. 
-            ${BUILD_URL}''', subject: 'Job ${JOB_NAME} ${BUILD_NUMBER} is failed', to: 'shubham@gmail.com'
-        }
-    }
+       
+     }
     
     stage('Build the Application'){
         echo "Cleaning... Compiling...Testing... Packaging..."
@@ -47,8 +41,8 @@ node{
     stage('Pushing it ot the DockerHub'){
         echo 'Pushing the docker image to DockerHub'
         withCredentials([string(credentialsId: 'dock-password', variable: 'dockerHubPassword')]) {
-        sh "${dockerCMD} login -u shubhamkushwah123 -p ${dockerHubPassword}"
-        sh "${dockerCMD} push shubhamkushwah123/insure-me:${tagName}"
+        sh "${dockerCMD} login -u maheshgajjela -p ${dockerHubPassword}"
+        sh "${dockerCMD} push maheshgajjela/insure-me:${tagName}"
             
         }
         
